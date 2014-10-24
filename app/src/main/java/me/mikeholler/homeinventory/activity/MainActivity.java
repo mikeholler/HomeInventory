@@ -7,25 +7,24 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 
 import io.realm.Realm;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import me.mikeholler.homeinventory.R;
-import me.mikeholler.homeinventory.adapter.ItemAdapter;
+import me.mikeholler.homeinventory.adapter.ItemRecyclerAdapter;
 import me.mikeholler.homeinventory.db.Item;
-import me.mikeholler.homeinventory.util.RealmAdapter;
+import me.mikeholler.homeinventory.util.RealmRecyclerAdapter;
 
 
 /**
  * Activity that allows the user to select an inventory item for further information.
  */
-public final class MainActivity extends Activity implements ItemAdapter.OnItemClickListener {
+public final class MainActivity extends Activity implements ItemRecyclerAdapter.OnItemClickListener {
 
     /**
      * The list holding and displaying each inventory item in the database.
      */
     private AbsListView mItemListView;
 
-    private RealmAdapter<Item, ?> mItemAdapter;
+    private RealmRecyclerAdapter<Item, ?> mItemAdapter;
 
     @Override
     protected void onCreate(final Bundle aSavedInstanceState) {
@@ -41,7 +40,7 @@ public final class MainActivity extends Activity implements ItemAdapter.OnItemCl
         final RealmResults<Item> itemResults = realm.allObjects(Item.class);
 
         mItemListView = (AbsListView) findViewById(R.id.itemList);
-        mItemAdapter = new ItemAdapter(this);
+        mItemAdapter = new ItemRecyclerAdapter(this);
         mItemListView.setAdapter(mItemAdapter);
         mItemAdapter.setResults(itemResults);
     }

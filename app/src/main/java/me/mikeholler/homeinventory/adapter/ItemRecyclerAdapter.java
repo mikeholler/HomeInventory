@@ -4,19 +4,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import me.mikeholler.homeinventory.db.Item;
-import me.mikeholler.homeinventory.util.RealmAdapter;
+import me.mikeholler.homeinventory.util.RealmRecyclerAdapter;
 import me.mikeholler.homeinventory.view.IInventoryListItemView;
 import me.mikeholler.homeinventory.view.InventoryListItemView;
 
 /**
  * Adapter for inventory items.
  */
-public final class ItemAdapter extends RealmAdapter<Item, ItemAdapter.ViewHolder> {
+public final class ItemRecyclerAdapter extends RealmRecyclerAdapter<Item, ItemRecyclerAdapter.ViewHolder> {
 
     /**
      * View holder for item views.
      */
-    protected static class ViewHolder extends RealmAdapter.ViewHolder {
+    protected static class ViewHolder extends RealmRecyclerAdapter.ViewHolder {
 
         /**
          * The held view.
@@ -44,7 +44,7 @@ public final class ItemAdapter extends RealmAdapter<Item, ItemAdapter.ViewHolder
      *
      * @param listener the click listener
      */
-    public ItemAdapter(final OnItemClickListener listener) {
+    public ItemRecyclerAdapter(final OnItemClickListener listener) {
         this.listener = listener;
     }
 
