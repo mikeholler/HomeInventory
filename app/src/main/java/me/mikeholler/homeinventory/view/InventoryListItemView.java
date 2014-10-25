@@ -19,6 +19,11 @@ public final class InventoryListItemView extends RelativeLayout
     private TextView mItemNameView;
 
     /**
+     * View holding the item's current quantity.
+     */
+    private TextView mItemQuantityView;
+
+    /**
      * Constructor.
      *
      * @param context the activity context
@@ -57,6 +62,7 @@ public final class InventoryListItemView extends RelativeLayout
     public void init() {
         inflate(getContext(), R.layout.view_inventory_list_item, this);
         mItemNameView = (TextView) findViewById(R.id.itemName);
+        mItemQuantityView = (TextView) findViewById(R.id.itemQuantity);
     }
 
     @Override
@@ -64,4 +70,8 @@ public final class InventoryListItemView extends RelativeLayout
         mItemNameView.setText(itemName);
     }
 
+    @Override
+    public void setItemQuantity(final int quantity) {
+        mItemQuantityView.setText(Integer.toString(quantity));
+    }
 }

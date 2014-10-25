@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/itemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/item_name"
+        android:inputType="text|textAutoComplete|textAutoCorrect|textCapWords" />
+
+    <LinearLayout
+        android:id="@+id/itemUpcGroup"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/itemName">
+
+        <EditText
+            android:id="@+id/itemUpc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/upc_hint"/>
+
+        <Button
+            android:id="@+id/scanUpc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/scan" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/itemCreate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Create Item"/>
+
+
+    <RelativeLayout
+        android:id="@+id/itemQuantityGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/itemUpcGroup"
+        android:layout_above="@id/itemCreate">
+
+        <NumberPicker
+            android:id="@+id/itemQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/itemQuantity"
+            android:layout_marginBottom="10dp"
+            android:textSize="20sp"
+            android:text="@string/initial_quantity"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

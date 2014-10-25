@@ -9,10 +9,29 @@
 
     <TextView
         android:id="@+id/itemName"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:gravity="start"
         android:textSize="30sp"
         tools:text="Item Name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/itemQuantity"
+        android:layout_toLeftOf="@id/itemQuantity"
+        android:layout_alignBaseline="@id/itemName"
+        android:text="@string/quantity_short"/>
+
+    <TextView
+        android:id="@+id/itemQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@id/itemName"
+        tools:text="100"/>
 
 </RelativeLayout>

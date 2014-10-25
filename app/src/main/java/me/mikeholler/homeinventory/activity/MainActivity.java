@@ -1,6 +1,8 @@
 package me.mikeholler.homeinventory.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,7 +12,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import me.mikeholler.homeinventory.R;
 import me.mikeholler.homeinventory.adapter.ItemRecyclerAdapter;
-import me.mikeholler.homeinventory.db.Item;
+import me.mikeholler.homeinventory.db.model.Item;
 import me.mikeholler.homeinventory.util.RealmRecyclerAdapter;
 
 
@@ -18,6 +20,11 @@ import me.mikeholler.homeinventory.util.RealmRecyclerAdapter;
  * Activity that allows the user to select an inventory item for further information.
  */
 public final class MainActivity extends Activity implements ItemRecyclerAdapter.OnItemClickListener {
+
+    /**
+     * Request code for the create item activity.
+     */
+    private static final int REQUEST_NEW_ITEM = 0;
 
     /**
      * The list holding and displaying each inventory item in the database.
@@ -31,18 +38,10 @@ public final class MainActivity extends Activity implements ItemRecyclerAdapter.
         super.onCreate(aSavedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Realm realm = Realm.getInstance(this);
-        realm.beginTransaction();
-        final Item item = realm.createObject(Item.class);
-        item.setName("itemname");
-        realm.commitTransaction();
-
-        final RealmResults<Item> itemResults = realm.allObjects(Item.class);
-
         mItemListView = (AbsListView) findViewById(R.id.itemList);
         mItemAdapter = new ItemRecyclerAdapter(this);
         mItemListView.setAdapter(mItemAdapter);
-        mItemAdapter.setResults(itemResults);
+        refreshItemList();
     }
 
     @Override
@@ -63,6 +62,11 @@ public final class MainActivity extends Activity implements ItemRecyclerAdapter.
             return true;
         }
 
+        if (id == R.id.action_new_item) {
+            trackNewItem();
+            return true;
+        }
+
         return super.onOptionsItemSelected(aItem);
     }
 
@@ -70,4 +74,30 @@ public final class MainActivity extends Activity implements ItemRecyclerAdapter.
     public void onItemClick(final Item aItem) {
 
     }
+
+    /**
+     * Create a new item to be tracked by the inventory system.
+     */
+    public void trackNewItem() {
+        final Intent intent = new Intent(this, CreateItemActivity.class);
+        startActivityForResult(intent, REQUEST_NEW_ITEM);
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode,
+                                    final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_NEW_ITEM && resultCode == RESULT_OK) {
+            refreshItemList();
+        }
+    }
+
+    /**
+     * Refresh the item list using the contents of the database.
+     */
+    private void refreshItemList() {
+        mItemAdapter.setResults(Realm.getInstance(MainActivity.this).where(Item.class).findAll());
+    }
+
 }

@@ -10,15 +10,17 @@ public interface IInventoryListItemView {
     /**
      * Set the view to show the inventory item's name.
      *
-     * @param aItemName the item's name
+     * @param itemName the item's name
      */
-    void setItemName(final String aItemName);
+    void setItemName(final String itemName);
+
+    void setItemQuantity(final int quantity);
 
     /**
      * Set the click event listener.
      *
-     * @param aListener the listener
+     * @param listener the listener
      */
-    void setOnClickListener(final View.OnClickListener aListener);
+    void setOnClickListener(final View.OnClickListener listener);
 
 }

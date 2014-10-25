@@ -1,7 +1,8 @@
-package me.mikeholler.homeinventory.db;
+package me.mikeholler.homeinventory.db.model;
 
 import java.util.Date;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
 /**
@@ -16,8 +17,12 @@ public class Item extends RealmObject {
     private String name;
     /** The item's UPC. */
     private String upc;
+    /** The number of items in stock. */
+    private int quantity;
     /** The date the item was added to the database. */
     private Date created;
+    /** List of transactions. */
+    private RealmList<Transaction> transactions;
 
     /**
      * Get the unique item identifier.
@@ -74,6 +79,24 @@ public class Item extends RealmObject {
     }
 
     /**
+     * Get the quantity of items in stock.
+     *
+     * @return the quantity
+     */
+    public int getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * Set the quantity of items in stock.
+     *
+     * @param aQuantity the quantity
+     */
+    public void setQuantity(final int aQuantity) {
+        quantity = aQuantity;
+    }
+
+    /**
      * Get the date this item was created.
      *
      * @return the date of creation
@@ -90,4 +113,23 @@ public class Item extends RealmObject {
     public void setCreated(final Date created) {
         this.created = created;
     }
+
+    /**
+     * Get all transactions this item was involved in.
+     *
+     * @return the transactions
+     */
+    public RealmList<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    /**
+     * Set the transactions the item was involved in.
+     *
+     * @param aTransactions the transactions
+     */
+    public void setTransactions(final RealmList<Transaction> aTransactions) {
+        transactions = aTransactions;
+    }
+
 }

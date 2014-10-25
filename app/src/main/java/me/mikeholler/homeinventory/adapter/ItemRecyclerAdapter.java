@@ -3,7 +3,7 @@ package me.mikeholler.homeinventory.adapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.mikeholler.homeinventory.db.Item;
+import me.mikeholler.homeinventory.db.model.Item;
 import me.mikeholler.homeinventory.util.RealmRecyclerAdapter;
 import me.mikeholler.homeinventory.view.IInventoryListItemView;
 import me.mikeholler.homeinventory.view.InventoryListItemView;
@@ -58,6 +58,7 @@ public final class ItemRecyclerAdapter extends RealmRecyclerAdapter<Item, ItemRe
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Item item = getItem(position);
         holder.view.setItemName(item.getName());
+        holder.view.setItemQuantity(item.getQuantity());
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
