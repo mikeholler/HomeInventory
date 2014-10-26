@@ -76,7 +76,16 @@ public final class CreateItemActivity extends Activity
         if (requestCode == IntentIntegrator.REQUEST_CODE && resultCode == RESULT_OK) {
             final IntentResult zxingResult =
                     IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-            new ValidateUpcTask().execute(zxingResult.getContents());
+            final String upc = zxingResult.getContents();
+
+            if (isUpcValid(upc)) {
+                Toast.makeText(CreateItemActivity.this, "UPC already in use by another item.",
+                        Toast.LENGTH_SHORT).show();
+                createView.setUpc("");
+            } else {
+                createView.setUpc(upc);
+            }
+
         }
     }
 
@@ -86,27 +95,16 @@ public final class CreateItemActivity extends Activity
     }
 
     /**
-     * Validation for the new upc.
+     * Check if the UPC in the UI is valid.
+     *
+     * @param upc the upc
+     *
+     * @return true if valid
      */
-    private class ValidateUpcTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(final String... upcs) {
-            final String upc = upcs[0];
-            final Realm realm = Realm.getInstance(CreateItemActivity.this);
-            final long count = realm.where(Upc.class).equalTo("upc", upc).count();
-            return count == 0 ? upc : null;
-        }
-
-        @Override
-        protected void onPostExecute(final String validUpc) {
-            if (validUpc == null) {
-                Toast.makeText(CreateItemActivity.this, "Barcode already in use by another item.",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                createView.setUpc(validUpc);
-            }
-        }
+    public boolean isUpcValid(final String upc) {
+        final Realm realm = Realm.getInstance(CreateItemActivity.this);
+        final long count = realm.where(Upc.class).equalTo("upc", upc).count();
+        return count == 0;
     }
 
     /**
@@ -115,26 +113,51 @@ public final class CreateItemActivity extends Activity
     private class CreateItemAsyncTask extends AsyncTask<Void, Void, Void> {
 
         @Override
+        protected void onPreExecute() {
+            if (createView.getName().isEmpty()) {
+                Toast.makeText(CreateItemActivity.this, "A name is required.",
+                        Toast.LENGTH_SHORT).show();
+                cancel(true);
+            }
+        }
+
+        @Override
         protected Void doInBackground(final Void... aVoids) {
             final DateTime now = DateTime.now();
             final int quantity = createView.getInitialQuantity();
             final Realm realm = Realm.getInstance(CreateItemActivity.this);
             realm.beginTransaction();
 
-            final Transaction transaction = realm.createObject(Transaction.class);
-            transaction.setDateTime(now.toDate());
-            transaction.setQuantity(quantity);
+            // Initial quantity is optional, so if it is zero there is no need to make a transaction
+            final Transaction transaction;
+            if (quantity != 0) {
+                transaction = realm.createObject(Transaction.class);
+                transaction.setDateTime(now.toDate());
+                transaction.setQuantity(quantity);
+            } else {
+                transaction = null;
+            }
 
-            final Upc upc = realm.createObject(Upc.class);
-            upc.setUpc(createView.getUpc());
+            // UPCs are optional, so if one was not specified then we ignore it
+            final Upc upc;
+            if (!createView.getUpc().isEmpty()) {
+                upc = realm.createObject(Upc.class);
+                upc.setUpc(createView.getUpc());
+            } else {
+                upc = null;
+            }
 
             final Item item = realm.createObject(Item.class);
             item.setId(UUID.randomUUID().toString());
             item.setName(createView.getName());
-            item.getUpcs().add(upc);
             item.setQuantity(quantity);
             item.setCreated(now.toDate());
-            item.getTransactions().add(transaction);
+            if (upc != null) {
+                item.getUpcs().add(upc);
+            }
+            if (transaction != null) {
+                item.getTransactions().add(transaction);
+            }
 
             realm.commitTransaction();
             return null;
