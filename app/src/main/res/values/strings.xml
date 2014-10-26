@@ -12,5 +12,7 @@
     <string name="upc_hint">UPC</string>
     <string name="title_activity_create_item">CreateItemActivity</string>
     <string name="quantity_short">Qty:</string>
+    <string name="scan_out">Scan Out</string>
+    <string name="scan_in">Scan In</string>
 
 </resources>

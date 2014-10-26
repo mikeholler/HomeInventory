@@ -30,28 +30,34 @@ public final class CreateItemActivity extends Activity
         ICreateItemView.OnCreateItemListener {
 
     /**
+     * Start this activity with a UPC pre-populated in the UPC field.
+     */
+    public static final String EXTRA_UPC = "EXTRA_UPC";
+
+    /**
      * Create item view.
      */
     private ICreateItemView createView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_item);
         createView = (ICreateItemView) findViewById(R.id.itemCreateView);
         createView.setOnScanUpcListener(this);
         createView.setOnCreateListener(this);
+        createView.setUpc(getIntent().getExtras().getString(EXTRA_UPC, ""));
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.create_item, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.

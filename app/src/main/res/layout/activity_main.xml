@@ -8,9 +8,33 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".Main">
 
+    <LinearLayout
+        android:id="@+id/scanGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/scanOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/scan_out"/>
+
+        <Button
+            android:id="@+id/scanIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/scan_in"/>
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/itemList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/scanGroup"/>
 
 </RelativeLayout>
