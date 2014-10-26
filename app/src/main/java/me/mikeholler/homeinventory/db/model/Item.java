@@ -16,7 +16,7 @@ public class Item extends RealmObject {
     /** The name of the item. */
     private String name;
     /** The item's UPC. */
-    private String upc;
+    private RealmList<Upc> upcs;
     /** The number of items in stock. */
     private int quantity;
     /** The date the item was added to the database. */
@@ -61,21 +61,21 @@ public class Item extends RealmObject {
     }
 
     /**
-     * Get the UPC code for the item.
+     * Get the UPC codes for the item.
      *
-     * @return the UPC code
+     * @return the UPC codes
      */
-    public String getUpc() {
-        return upc;
+    public RealmList<Upc> getUpcs() {
+        return upcs;
     }
 
     /**
-     * Set the UPC code for the item.
+     * Set the UPC codes for the item.
      *
-     * @param upc the UPC code
+     * @param upcs the UPC codes
      */
-    public void setUpc(final String upc) {
-        this.upc = upc;
+    public void setUpcs(final RealmList<Upc> upcs) {
+        this.upcs = upcs;
     }
 
     /**
